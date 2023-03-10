@@ -35,7 +35,7 @@ const EditCard = () => {
         res.data.map((cards) => {
           if (cards["id"] === params.bucket) {
             cards[params.bucket].map((buck) => {
-              if (buck.id === params.id) {
+              if (toString(buck.id) === params.id) {
                 setCard(buck);
               }
             });

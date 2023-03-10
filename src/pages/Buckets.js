@@ -5,6 +5,7 @@ import {
   DeleteOutlined,
   FolderAddOutlined,
   SelectOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import {
   Card,
@@ -15,7 +16,9 @@ import {
   Form,
   Input,
   Col,
+  Spin,
   Row,
+  message,
 } from "antd";
 import { useState, useRef, useEffect } from "react";
 import Draggable from "react-draggable";
@@ -33,6 +36,8 @@ const Buckets = () => {
   const [tabList, setTabList] = useState([]);
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [update, setUpdate] = useState(true);
   const [cardId, setCardId] = useState(null);
   const [bounds, setBounds] = useState({
     left: 0,
@@ -45,15 +50,27 @@ const Buckets = () => {
   const showModal = () => {
     setOpen(true);
   };
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const displayMessage = (msg) => {
+    messageApi.info(msg);
+  };
+
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
   const handleOk = (e) => {
+    setLoading(true);
     if (newBucket != "") {
       let newdatavalues = {};
       newdatavalues["id"] = newBucket;
       newdatavalues[newBucket] = [];
       axios
         .post("http://localhost:8000/cards", newdatavalues)
-        .then((res) => {
-          console.log(res);
+        .then(async (res) => {
+          setLoading(false);
+          displayMessage("New bucket created successfully!");
+          setUpdate(!update);
         })
         .catch((err) => {
           console.log(err);
@@ -107,6 +124,7 @@ const Buckets = () => {
   let arr1 = [];
   let tabcontent = {};
   useEffect(() => {
+    setLoading(true);
     axios
       .get("http://localhost:8000/cards")
       .then((res) => {
@@ -133,17 +151,22 @@ const Buckets = () => {
         }
         setTabList(uniq);
         setTabContentList(tabcontent);
+        setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
-  }, []);
+  }, [update]);
 
   const deleteCard = (id, bucket) => {
+    // setLoading(true);
     prevCards.map(async (tabs) => {
       await axios
         .delete(`http://localhost:8000/cards/${tabs.id}`)
-        .then((res) => {})
+        .then((res) => {
+          // console.log("delete", res);
+        })
         .catch((err) => {
           console.log(err);
         });
@@ -164,16 +187,21 @@ const Buckets = () => {
     });
 
     console.log(newbucketData);
-    newbucketData.map((cardobj) => {
-      axios
+    newbucketData.map(async (cardobj) => {
+      await axios
         .post("http://localhost:8000/cards", cardobj)
         .then((res) => {
-          console.log(res);
+          setLoading(false);
         })
         .catch((err) => {
+          setLoading(false);
           console.log(err);
         });
     });
+    displayMessage("Card deleted successfully!");
+    delay(2500);
+    setUpdate(!update);
+    // window.location.reload();
   };
 
   const addHistory = (card) => {
@@ -186,6 +214,7 @@ const Buckets = () => {
   };
 
   const moveCard = (newBucket) => {
+    setLoading(true);
     if (cardId !== null) {
       prevCards.map(async (tabs) => {
         await axios
@@ -221,22 +250,41 @@ const Buckets = () => {
           element[keyv].push(currentCard);
         }
       }
-      newbucketData.map((cardobj) => {
-        axios
+      console.log(newbucketData);
+      newbucketData.map(async (cardobj) => {
+        await axios
           .post("http://localhost:8000/cards", cardobj)
           .then((res) => {
-            console.log(res);
+            setLoading(false);
           })
           .catch((err) => {
-            console.log(err);
+            setLoading(false);
           });
       });
+      setUpdate(!update);
     }
   };
+
+  const antIcon = (
+    <LoadingOutlined
+      id="loadingSpinner"
+      style={{
+        fontSize: 24,
+        display: "block",
+        margin: "20px auto",
+      }}
+      spin
+    />
+  );
+
+  if (isLoading) {
+    return <Spin indicator={antIcon} />;
+  }
 
   return (
     <>
       <Navbar current="buckets" />
+      {contextHolder}
       <Card
         style={{
           width: "80%",
@@ -312,7 +360,7 @@ const Buckets = () => {
                     </Card>
                   </Col>
                 ))
-              : "No media in this bucket"}
+              : "Please select any bucket!"}
           </Row>
         }
       </Card>

@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar";
-import { Button, Form, Input, Select, Upload, message } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Select, Upload, message, Spin } from "antd";
+import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -57,22 +57,40 @@ const props = {
 };
 
 const AddCardForm = () => {
-  const [form] = Form.useForm();
   const [prevCards, setPrevCards] = useState({});
   const [options, setOptions] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [update, setUpdate] = useState(true);
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const displayMessage = (msg) => {
+    messageApi.info(msg);
+  };
+
   useEffect(() => {
-    axios.get("http://localhost:8000/cards").then((res) => {
-      let arr = [];
-      setPrevCards(res.data);
-      for (let index = 0; index < res.data.length; index++) {
-        const element = res.data[index];
-        var keyv = element["id"];
-        arr.push(keyv);
-        // console.log("tabcontent", tabcontent);
-      }
-      setOptions(arr);
-    });
+    setLoading(true);
+    axios
+      .get("http://localhost:8000/cards")
+      .then((res) => {
+        let arr = [];
+        setPrevCards(res.data);
+        for (let index = 0; index < res.data.length; index++) {
+          const element = res.data[index];
+          var keyv = element["id"];
+          arr.push(keyv);
+          // console.log("tabcontent", tabcontent);
+        }
+        setOptions(arr);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   }, []);
+
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
   const onFinish = (values) => {
     options.map(async (tabs) => {
@@ -107,22 +125,39 @@ const AddCardForm = () => {
         // console.log("tabcontent", tabcontent);
       }
     }
-    console.log("newCard", newCard);
-    newCard.map((cardobj) => {
-      axios
+
+    newCard.map(async (cardobj) => {
+      await axios
         .post("http://localhost:8000/cards", cardobj)
-        .then((res) => {
-          console.log(res);
-        })
+        .then(async (res) => {})
         .catch((err) => {
           console.log(err);
         });
     });
-  };
 
+    displayMessage("Card added successfully!");
+    delay(2500);
+    // window.location.reload();
+  };
+  const antIcon = (
+    <LoadingOutlined
+      id="loadingSpinner"
+      style={{
+        fontSize: 24,
+        display: "block",
+        margin: "20px auto",
+      }}
+      spin
+    />
+  );
+
+  if (isLoading) {
+    return <Spin indicator={antIcon} />;
+  }
   return (
     <>
       <Navbar current="add" />
+      {contextHolder}
       <Form
         id="cardform"
         {...layout}

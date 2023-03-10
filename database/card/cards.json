@@ -4,79 +4,20 @@
       "id": "Music",
       "Music": [
         {
-          "id": "31330",
-          "title": "Music Title 1",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi magnam perspiciatis voluptates.",
-          "media": "C://....",
-          "lastVisited": "09/03/2023 12:47 AM"
-        },
-        {
-          "id": "31331",
-          "title": "Music Title 2",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi magnam perspiciatis voluptates.",
-          "media": "C://....",
-          "lastVisited": ""
-        },
-        {
-          "id": "31332",
-          "title": "Music Title 3",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi magnam perspiciatis voluptates.",
-          "media": "C://....",
-          "lastVisited": "02/03/2023 05:02 PM"
-        }
-      ]
-    },
-    {
-      "id": "Sports",
-      "Sports": [
-        {
-          "id": "31330",
-          "title": "Sports Title 1",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi magnam perspiciatis voluptates.",
-          "media": "C://....",
-          "lastVisited": "09/03/2023 12:47 AM"
-        },
-        {
-          "id": "31331",
-          "title": "Sports Title 2",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi magnam perspiciatis voluptates.",
-          "media": "C://....",
-          "lastVisited": ""
-        },
-        {
-          "id": "31332",
-          "title": "Sports Title 3",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi magnam perspiciatis voluptates.",
-          "media": "C://....",
-          "lastVisited": "02/03/2023 05:02 PM"
-        },
-        {
-          "id": "31333",
-          "title": "Sports Title 4",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi magnam perspiciatis voluptates.",
-          "media": "C://....",
-          "lastVisited": ""
-        }
-      ]
-    },
-    {
-      "id": "PICT",
-      "PICT": [
-        {
-          "title": "Title 1",
-          "description": "I am adding this card to the PICT bucket",
-          "bucket": "PICT",
+          "title": "Remix music",
+          "description": "This is remix of all the most popular songs",
+          "bucket": "Music",
           "media": [
             {
-              "uid": "rc-upload-1678380795595-3",
-              "lastModified": 1676974284764,
-              "lastModifiedDate": "2023-02-21T10:11:24.764Z",
-              "name": "the stat says.mp4",
-              "size": 11364910,
-              "type": "video/mp4",
+              "uid": "rc-upload-1678452891232-5",
+              "lastModified": 1662581243001,
+              "lastModifiedDate": "2022-09-07T20:07:23.001Z",
+              "name": "Screenshot 2022-09-08 01-37-22.png",
+              "size": 6142,
+              "type": "image/png",
               "percent": 0,
               "originFileObj": {
-                "uid": "rc-upload-1678380795595-3"
+                "uid": "rc-upload-1678452891232-5"
               },
               "error": {
                 "isTrusted": true
@@ -84,17 +25,21 @@
               "status": "error"
             }
           ],
-          "id": 1678380819965
-        },
-        {
-          "id": "31333",
-          "title": "Music Title 4",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi magnam perspiciatis voluptates.",
-          "media": "C://....",
-          "lastVisited": "",
-          "bucket": "PICT"
+          "id": 1678452948194
         }
       ]
+    },
+    {
+      "id": "Movies",
+      "Movies": []
+    },
+    {
+      "id": "Sports",
+      "Sports": []
+    },
+    {
+      "id": "Education",
+      "Education": []
     }
   ],
   "history": [
