@@ -24,6 +24,8 @@ import { useState, useRef, useEffect } from "react";
 import Draggable from "react-draggable";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ReactPlayer from "react-player";
+import video from "../videos/Assign03_1_Sangmeshwar1678551824717.mp4";
 
 const { Meta } = Card;
 
@@ -315,19 +317,29 @@ const Buckets = () => {
                       }}
                       cover={
                         <>
-                          {/* <video width="500px" height="500px" controls="controls">
-                          <source
-                            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                            type="video/mp4"
+                          <ReactPlayer
+                            width="300px"
+                            height="300px"
+                            url={video}
+                            controls={true}
                           />
-                        </video> */}
-                          <Image
+                          {/* <video
+                            width="500px"
+                            height="500px"
+                            controls="controls"
+                          >
+                            <source
+                              src={process.env.PUBLIC_URL + card.media}
+                              type="video/mp4"
+                            />
+                          </video> */}
+                          {/* <Image
                             // width={200}
                             onClick={() => {
                               addHistory(card);
                             }}
                             src={card.source}
-                          />
+                          /> */}
                         </>
                       }
                       actions={[

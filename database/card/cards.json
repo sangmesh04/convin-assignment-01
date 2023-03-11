@@ -1,6 +1,53 @@
 {
   "cards": [
     {
+      "id": "Movies",
+      "Movies": [
+        {
+          "title": "Title",
+          "description": "Testing this request for the video upload option",
+          "bucket": "Movies",
+          "media": [
+            {
+              "uid": "rc-upload-1678552054830-3",
+              "lastModified": 1662581410043,
+              "lastModifiedDate": "2022-09-07T20:10:10.043Z",
+              "name": "2022-09-08 01-38-13.mkv",
+              "size": 36188741,
+              "type": "video/x-matroska",
+              "percent": 100,
+              "originFileObj": {
+                "uid": "rc-upload-1678552054830-3"
+              },
+              "status": "done",
+              "response": {
+                "filename": "2022-09-08 01-38-131678552090869.mkv",
+                "message": "File uploaded successfully!"
+              },
+              "xhr": {}
+            }
+          ],
+          "id": 1678552096246
+        }
+      ]
+    },
+    {
+      "id": "Sports",
+      "Sports": [
+        {
+          "title": "Task",
+          "description": "Testing this request for file upload",
+          "bucket": "Sports",
+          "media": "../../database/media/2023-02-03 00-17-061678552208945.mp4",
+          "id": 1678552213070
+        }
+      ]
+    },
+    {
+      "id": "Education",
+      "Education": []
+    },
+    {
       "id": "Music",
       "Music": [
         {
@@ -28,18 +75,6 @@
           "id": 1678452948194
         }
       ]
-    },
-    {
-      "id": "Movies",
-      "Movies": []
-    },
-    {
-      "id": "Sports",
-      "Sports": []
-    },
-    {
-      "id": "Education",
-      "Education": []
     }
   ],
   "history": [

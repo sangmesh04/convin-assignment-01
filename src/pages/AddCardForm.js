@@ -4,68 +4,72 @@ import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const { Option } = Select;
-
-const normFile = (e) => {
-  console.log("Upload event:", e);
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
-
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-
-/* eslint-disable no-template-curly-in-string */
-const validateMessages = {
-  required: "${label} is required!",
-};
-/* eslint-enable no-template-curly-in-string */
-
-const props = {
-  name: "file",
-  action: "https://v2.convertapi.com/upload",
-  headers: {
-    authorization: "authorization-text",
-  },
-  onChange(info) {
-    console.log("file info: ", info);
-    if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  progress: {
-    strokeColor: {
-      "0%": "#108ee9",
-      "100%": "#87d068",
-    },
-    strokeWidth: 3,
-    format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
-  },
-};
-
 const AddCardForm = () => {
   const [prevCards, setPrevCards] = useState({});
   const [options, setOptions] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [mediaName, setMediaName] = useState("");
   const [update, setUpdate] = useState(true);
 
   const [messageApi, contextHolder] = message.useMessage();
 
   const displayMessage = (msg) => {
     messageApi.info(msg);
+  };
+
+  const { Option } = Select;
+
+  const normFile = (e) => {
+    var file = e.file.name;
+    var file_name_array = file.split(".");
+    var file_extension = file_name_array[file_name_array.length - 1];
+    if (file_extension === "mp4" || file_extension === "mkv") {
+      if (Array.isArray(e)) {
+        return e;
+      }
+      return e?.fileList;
+    } else {
+      displayMessage("Kindly select the file of type 'mp4' or 'mkv'");
+    }
+  };
+
+  const layout = {
+    labelCol: {
+      span: 8,
+    },
+    wrapperCol: {
+      span: 16,
+    },
+  };
+
+  /* eslint-disable no-template-curly-in-string */
+  const validateMessages = {
+    required: "${label} is required!",
+  };
+  /* eslint-enable no-template-curly-in-string */
+
+  const props = {
+    name: "file",
+    action: "http://localhost:5000/upload",
+    headers: {
+      authorization: "authorization-text",
+    },
+    onChange(info) {
+      if (info.file.status === "done") {
+        setMediaName(info.fileList[0].response.filename);
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    progress: {
+      strokeColor: {
+        "0%": "#108ee9",
+        "100%": "#87d068",
+      },
+      strokeWidth: 3,
+      format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
+    },
   };
 
   useEffect(() => {
@@ -105,6 +109,7 @@ const AddCardForm = () => {
 
     let newdatavalues = values.card;
     newdatavalues["id"] = new Date().valueOf();
+    newdatavalues["media"] = "../../database/media/" + mediaName;
     let newCard = prevCards;
     console.log("prevcards", newCard);
     if (values.card["bucket"] === "-1") {
@@ -202,9 +207,9 @@ const AddCardForm = () => {
         >
           <Select placeholder="Select a bucket" allowClear>
             {options.map((option) => (
-              <>
-                <Option value={option}>{option}</Option>
-              </>
+              <Option key={option} value={option}>
+                {option}
+              </Option>
             ))}
             <Option value="-1">Add new</Option>
           </Select>
@@ -213,7 +218,9 @@ const AddCardForm = () => {
         <Form.Item
           noStyle
           shouldUpdate={(prevValues, currentValues) =>
-            prevValues.card.bucket !== currentValues.card.bucket
+            prevValues.card
+              ? prevValues.card.bucket !== currentValues.card.bucket
+              : ""
           }
         >
           {({ getFieldValue }) =>
@@ -243,7 +250,7 @@ const AddCardForm = () => {
             },
           ]}
         >
-          <Upload {...props} maxCount={1}>
+          <Upload accept=".mp4, .mkv" {...props} maxCount={1}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </Form.Item>
