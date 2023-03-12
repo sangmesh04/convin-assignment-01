@@ -109,7 +109,7 @@ const AddCardForm = () => {
 
     let newdatavalues = values.card;
     newdatavalues["id"] = new Date().valueOf();
-    newdatavalues["media"] = "../../database/media/" + mediaName;
+    newdatavalues["media"] = mediaName;
     let newCard = prevCards;
     console.log("prevcards", newCard);
     if (values.card["bucket"] === "-1") {

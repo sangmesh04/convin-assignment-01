@@ -25,7 +25,7 @@ import Draggable from "react-draggable";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player";
-import video from "../videos/Assign03_1_Sangmeshwar1678551824717.mp4";
+import Video from "../media/4_58480018421637475801678621281427.mkv";
 
 const { Meta } = Card;
 
@@ -319,8 +319,8 @@ const Buckets = () => {
                         <>
                           <ReactPlayer
                             width="300px"
-                            height="300px"
-                            url={video}
+                            height="auto"
+                            url={Video}
                             controls={true}
                           />
                           {/* <video
